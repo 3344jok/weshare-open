@@ -1,0 +1,30 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   .idea/dataSources/54c3b85d-4ee7-4420-96ef-7d032b26b18c.xml
+#	deleted:    .idea/libraries/Maven__com_aspose_aspose_imaging_jdk16_20_12.xml
+#	new file:   .idea/libraries/Maven__io_netty_netty_buffer_4_1_55_Final.xml
+#	new file:   .idea/libraries/Maven__io_netty_netty_codec_4_1_55_Final.xml
+#	new file:   .idea/libraries/Maven__io_netty_netty_common_4_1_55_Final.xml
+#	new file:   .idea/libraries/Maven__io_netty_netty_resolver_4_1_55_Final.xml
+#	new file:   .idea/libraries/Maven__io_netty_netty_transport_4_1_55_Final.xml
+#	modified:   .idea/workspace.xml
+#	modified:   vue-manage-system-master/src/api/index.js
+#	modified:   vue-manage-system-master/src/components/Header.vue
+#	modified:   vue-manage-system-master/src/views/Register.vue
+#	modified:   weshare-server/pom.xml
+#	modified:   weshare-server/src/main/java/com/zhang26/weshareserver/controller/RegisterController.java
+#	new file:   weshare-server/src/main/java/com/zhang26/weshareserver/controller/headerController.java
+#	modified:   weshare-server/src/main/java/com/zhang26/weshareserver/model/RegistrationForm.java
+#	modified:   weshare-server/src/main/java/com/zhang26/weshareserver/model/UserInfo.java
+#	modified:   weshare-server/src/main/java/com/zhang26/weshareserver/service/UserInfoService.java
+#	modified:   weshare-server/src/main/java/com/zhang26/weshareserver/util/FormatUtil.java
+#	modified:   weshare-server/src/main/resources/mapper/UserInfoMapper.xml
+#
+Update pfp

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.GroupMapper">
+    <select id="getByUserIdAll"  resultType="model.Group">
+        select * from weshare.group
+        where weshare.group.id in
+              (select group_id from user_group
+               where user_group.user_id = #{userId})
+        and group_name like CONCAT('%',#{pattern},'%')
+    </select>
+
+    <select id="getByUserIdOnlyMine"  resultType="model.Group">
+        select * from weshare.group
+        where weshare.group.id in
+              (select group_id from user_group
+               where user_group.user_id = #{userId})
+          and group_name like CONCAT('%',#{pattern},'%')
+          and creator_id =#{userId}
+    </select>
+
+    <select id="getById" parameterType="int" resultType="model.Group">
+        select * from weshare.group where id=#{id}
+    </select>
+    <select id="getByGroupName" parameterType="String" resultType="model.Group">
+        select * from weshare.group where group_name=#{groupName}
+    </select>
+    <select id="searchByGroupName" parameterType="String" resultType="model.Group">
+        select * from weshare.group where group_name like CONCAT('%',#{pattern},'%')
+    </select>
+    <select id="getByCreatorId" parameterType="int" resultType="model.Group">
+        select * from weshare.group where creator_id=#{creatorId}
+    </select>
+    <select id="getByUuid" parameterType="String" resultType="model.Group">
+        select * from weshare.group where group_uuid=#{uuid}
+    </select>
+    <delete id="deleteById" >
+        delete from weshare.group
+        where id = #{id}
+    </delete>
+    <update id="update" >
+        update weshare.group
+        set group_name =#{groupName},
+            creator_id =#{creatorId},
+            cover =#{cover},
+            invitation_code =#{invitationCode},
+            weshare.group.date =#{date},
+            remark =#{remark},
+            group_uuid =#{groupUuid},
+            ctype =#{ctype}
+        where id =#{id}
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into weshare.group(
+            group_name,
+            creator_id,
+            cover,
+            invitation_code,
+            weshare.group.date,
+            remark,
+            group_uuid,
+            ctype
+        )
+        values(#{groupName},
+               #{creatorId},
+               #{cover},
+               #{invitationCode},
+               #{date},
+               #{remark},
+               #{groupUuid},
+               #{ctype})
+    </insert>
+
+    <resultMap id="getAlbumsResultMap"
+
+               type="model.Group">
+
+        <id column="group_id" property="id"/>
+        <result column="g_name" property="groupName"/>
+        <result column="g_creator_id" property="creatorId"/>
+        <result column="g_cover" property="cover"/>
+        <result column="g_ic" property="invitationCode"/>
+        <result column="g_date" property="date"/>
+        <result column="g_remark" property="remark"/>
+        <result column="g_uuid" property="groupUuid"/>
+        <result column="g_ctype" property="ctype"/>
+
+        <!-- collection标签：映射“对多”的关联关系 -->
+        <!-- property属性：关联“多”的一端的属性名 -->
+        <!-- ofType属性：集合属性中元素的类型 -->
+        <collection property="albums" ofType="model.Album">
+
+            <!-- 映射Order的属性 -->
+            <id column="album_id" property="id"/>
+            <result column="a_name" property="albumName"/>
+            <result column="a_creator_id" property="creatorId"/>
+            <result column="a_cover" property="cover"/>
+            <result column="a_date" property="date"/>
+            <result column="a_remark" property="remark"/>
+            <result column="a_ctype" property="ctype"/>
+
+        </collection>
+
+    </resultMap>
+
+    <!-- Customer selectCustomerWithOrderList(Integer customerId); -->
+    <select id="getAlbums" resultType="model.Album">
+        SELECT
+        weshare.album.id as id,
+        weshare.album.album_name as album_name,
+        weshare.album.creator_id as creator_id,
+        weshare.album.cover as cover,
+        weshare.album.date as date,
+        weshare.album.remark as remark,
+        weshare.album.ctype as ctype
+        FROM weshare.group
+        LEFT JOIN group_album
+        ON weshare.group.id=group_album.group_id
+        LEFT JOIN weshare.album
+        ON group_album.album_id=weshare.album.id
+        where weshare.group.id = #{groupId}
+          and weshare.album.album_name like CONCAT('%',#{pattern},'%')
+        <if test="all==false">
+            <!-- 在if标签内部，需要访问接口的参数时还是正常写#{} -->
+            and weshare.album.creator_id=#{userId}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.PhotoMapper">
+
+    <!--    <resultMap id="albumMap1" type="model.Album">-->
+    <!--        <id column="id" property="deptno"/>-->
+    <!--        <result column="dname" property="dname"/>-->
+    <!--        <result column="loc" property="loc"/>-->
+    <!--        &lt;!&ndash; column 属性对应来自一方（一对多的一）表主键的字段名 &ndash;&gt;-->
+    <!--        <collection property="employeeList" ofType="Employee" column="dept_deptno">-->
+    <!--            <id column="emp_no" property="empNo"/>-->
+    <!--            <result column="e_name" property="eName"/>-->
+    <!--        </collection>-->
+    <!--    </resultMap>-->
+
+    <!--    <select id="getByUserIdAll"  resultType="model.Album">-->
+    <!--        select * from album-->
+    <!--        where album.id in-->
+    <!--              (select group_id from user_group-->
+    <!--               where user_group.user_id = #{userId})-->
+    <!--          and group_name like CONCAT('%',#{pattern},'%')-->
+    <!--    </select>-->
+
+    <!--    <select id="getByUserIdOnlyMine"  resultType="model.Album">-->
+    <!--        select * from album-->
+    <!--        where album.id in-->
+    <!--              (select group_id from user_group-->
+    <!--               where user_group.user_id = #{userId})-->
+    <!--          and group_name like CONCAT('%',#{pattern},'%')-->
+    <!--          and creator_id =#{userId}-->
+    <!--    </select>-->
+
+    <select id="getByPhotoId" parameterType="int" resultType="model.Photo">
+        select * from photo where id=#{photoId}
+    </select>
+
+
+
+    <delete id="deleteByPhotoId" >
+        update photo
+        set photo_status=0
+        where id = #{id}
+    </delete>
+    <update id="update" >
+        update photo
+        set
+            creator_id =#{creatorId},
+            photo.date =#{date},
+            file_path=#{filePath},
+            photo_status=#{photoStatus},
+            album_id=#{albumId}
+        where id =#{id}
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into photo(
+            creator_id,
+            photo.date,
+            file_path,
+            photo_status,
+            album_id
+        )
+        values(#{creatorId},
+               #{date},
+               #{filePath},
+               #{photoStatus},
+               #{albumId})
+    </insert>
+
+
+
+    <select id="getPhotos" resultType="model.Photo">
+        SELECT
+        p.id as id,
+        p.creator_id as creator_id,
+        p.date as date,
+        p.file_path as file_path,
+        p.photo_status as photo_status,
+        p.album_id as album_id
+        FROM album as a
+        LEFT JOIN photo as p
+        ON a.id=p.album_id
+        where a.id = #{albumId}
+            and p.photo_status=1
+        <if test="all==false">
+            <!-- 在if标签内部，需要访问接口的参数时还是正常写#{} -->
+            and p.creator_id=#{userId}
+        </if>
+    </select>
+</mapper>

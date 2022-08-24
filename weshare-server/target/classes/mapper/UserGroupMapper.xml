@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.UserGroupMapper">
+
+    <select id="getByUserIdAndGroupId" resultType="model.UserGroup">
+        select * from user_group where user_id = #{userId} and group_id=#{groupId}
+    </select>
+
+    <select id="getByGroupId" resultType="model.UserGroup">
+        select * from user_group where group_id=#{groupId}
+    </select>
+
+    <select id="getByUserId" resultType="model.UserGroup">
+        select * from user_group where user_id=#{userId}
+    </select>
+
+    <update id="updateNoticeLevel" >
+        update user_group
+        set notice_level =#{noticeLevel}
+        where user_id =#{userGroup.userId} and group_id=#{userGroup.groupId}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into user_group(user_id,group_id,notice_level)
+        values(#{userId},#{groupId},#{noticeLevel})
+    </insert>
+
+    <delete id="deleteByGroupId">
+        delete from user_group
+        where group_id=#{groupId}
+    </delete>
+
+
+</mapper>

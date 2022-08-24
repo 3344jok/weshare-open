@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.CommentMapper">
+
+
+    <select id="getByPhotoId" resultType="model.Comment">
+        select
+            c.id as id,
+            c.sender_id as sender_id,
+            c.receiver_id as receiver_id,
+            u1.user_name as sender_name,
+            u2.user_name as recevier_name,
+            c.content as content,
+            c.date as date,
+            c.photo_id as photo_id
+        from comment as c
+            left join user_info as u1
+        on c.sender_id=u1.id
+            left join user_info as u2
+            on c.receiver_id=u2.id
+        where c.photo_id=#{photoId}
+    </select>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into comment(
+            sender_id,
+            receiver_id,
+            content,
+            comment.date,
+            photo_id
+        )
+        values(#{senderId},
+               #{receiverId},
+               #{content},
+               #{date},
+               #{photoId})
+    </insert>
+
+    <delete id="deleteByCommentId" >
+        delete from comment
+        where id = #{commentId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.UserInfoMapper">
+
+    <select id="getByUserName" resultType="model.UserInfo" parameterType="String">
+        select * from user_info where user_name = #{userName};
+    </select>
+
+    <select id="getByEmailAcount" resultType="model.UserInfo" parameterType="String">
+        select * from user_info where email_acount = #{emailAcount};
+    </select>
+
+    <select id="getByUserLoginId" resultType="model.UserInfo" parameterType="int">
+        select * from user_info where user_login_id = #{userLoginId};
+    </select>
+
+    <select id="getById" resultType="model.UserInfo" parameterType="int">
+        select * from user_info where id = #{id};
+    </select>
+
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        update user_info
+        set user_name =#{userName},email_acount =#{emailAcount},profile_photo =#{profilePhoto},background =#{background},
+            pfp_type=#{pfpType},bg_type=#{bgType}
+        where id =#{id}
+    </update>
+
+    <insert id="insertNewUserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info(user_name,email_acount,profile_photo,background,user_login_id,pfp_type,bg_type)
+        values(#{userName},#{emailAcount},#{profilePhoto},#{background},#{userLoginId},#{pfpType},#{bgType})
+    </insert>
+
+
+</mapper>

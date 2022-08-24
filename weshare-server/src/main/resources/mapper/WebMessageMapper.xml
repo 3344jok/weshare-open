@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.WebMessageMapper">
+
+    <select id="getReadByUserName" resultType="model.WebMessage" parameterType="String">
+        select * from web_message where user_name = #{userName} and status=1
+        order by id desc;
+    </select>
+
+    <select id="getUnReadByUserName" resultType="model.WebMessage" parameterType="String">
+        select * from web_message where user_name = #{userName} and status=0
+        order by id desc;
+    </select>
+
+    <select id="getUnReadNumByUserName" resultType="int" parameterType="String">
+        select count(*) from web_message where user_name = #{userName} and status=0
+    </select>
+
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        update web_message
+        set status=1
+        where id =#{id}
+    </update>
+
+    <update id="updateAll" >
+        update web_message
+        set status=1
+        where user_name =#{userName}
+    </update>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into web_message(user_name,content,status,create_date)
+        values(#{userName},#{content},#{status},#{createDate})
+    </insert>
+
+
+</mapper>

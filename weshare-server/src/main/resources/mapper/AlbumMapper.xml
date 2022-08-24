@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhang26.weshareserver.mapper.AlbumMapper">
+
+
+    <select id="getById" parameterType="int" resultType="model.Album">
+        select * from album where id=#{albumId}
+    </select>
+    <select id="getByAlbumName" parameterType="String" resultType="model.Album">
+        select * from album where album_name=#{albumName}
+    </select>
+
+    <select id="getByCreatorId" parameterType="int" resultType="model.Album">
+        select * from album where creator_id=#{creatorId}
+    </select>
+
+    <delete id="deleteById" >
+        delete from album
+        where id = #{id}
+    </delete>
+    <update id="update" >
+        update album
+        set album_name =#{albumName},
+            creator_id =#{creatorId},
+            cover =#{cover},
+            album.date =#{date},
+            remark =#{remark},
+            ctype =#{ctype}
+        where id =#{id}
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into album(
+            album_name,
+            creator_id,
+            cover,
+            album.date,
+            remark,
+            ctype
+        )
+        values(#{albumName},
+               #{creatorId},
+               #{cover},
+               #{date},
+               #{remark},
+               #{ctype})
+    </insert>
+
+
+</mapper>
